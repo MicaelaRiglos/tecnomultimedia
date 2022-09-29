@@ -1,5 +1,5 @@
 int violeta, rojo, amarillo;
-Juego arkanoid;
+Cancha arkanoid;
 
 void setup(){
   size(600, 600);
@@ -8,7 +8,7 @@ void setup(){
   amarillo = color( 255, 250, 198, 30 ); 
   rojo = color( 199, 0, 57 ); 
   
-  arkanoid = new Juego(0, 0, color(rojo), color(amarillo), width, height, 10);
+  arkanoid = new Cancha(0, 0, color(rojo), color(amarillo), width, height, 10);
 }
 
 void draw(){
