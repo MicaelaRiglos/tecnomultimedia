@@ -62,13 +62,7 @@ class Pelota {
   }    
 
   void invertir() {
-    velX = 0.1;
-    velY = 0.1;
-  }
-
-  void picar() {
-    velX = velX-0.3;
-    velY = velY*-0.3;
+    velY = velY * -1;
   }
 
   float getX() {

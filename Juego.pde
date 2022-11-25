@@ -17,12 +17,4 @@ class Juego {
   void mouseClicked() {
     pantalla.mouseClicked();
   }
-
-  void keyPressed() {
-    if (key == ' ');
-    {
-      pantalla.reiniciar();
-      estado = 0;
-    }
-  }
 }

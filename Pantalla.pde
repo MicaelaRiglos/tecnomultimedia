@@ -130,6 +130,8 @@ class Pantalla {
       botonCreditos.mouseClicked();
     }
   }
+  
+  //REINICIO-------------------------------------------------------
 
   void reiniciar() {
     pelota.reiniciar();
