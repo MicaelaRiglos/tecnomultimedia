@@ -1,3 +1,6 @@
+//Riglos Llano Micaela (91342/2) y Segovia Brizuela Diana Aidee (91381/9)
+//https://youtu.be/jKrwWIfKPoM
+
 import ddf.minim.*;
 
 Minim minim;
