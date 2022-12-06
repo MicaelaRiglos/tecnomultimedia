@@ -2,7 +2,7 @@ class Juego {
 
   //PROPIEDADES------------------------------------
 
-  PImage tiste, love, instruccion, win, volver, iniciar, instruc, juego;
+  PImage tiste, love, instruccion, win, volver, iniciar, instruc, juego, perdi, gane, cred;
   PFont fuente1, fuente2;
   int violeta, bordo, rojo, naranja, amarillo;
 
@@ -28,17 +28,20 @@ class Juego {
     ganaste = minim.loadFile("ganaste.wav");
     mybeat2 = minim.loadFile("mybeat2.wav");
 
+    //IMAGENES
     imageMode (CENTER);
     tiste = loadImage ("triste.png");
     love = loadImage ("love.png");
     instruccion = loadImage ("inst.png");
     win = loadImage ("winner.png");
     volver = loadImage ("credit.png");
-
     iniciar = loadImage ("flota.jpg");
     instruc = loadImage ("Molinos.jpg");
     juego = loadImage ("StudioGhibli.png");
-
+    perdi = loadImage ("train.jpg");
+    gane = loadImage ("AutumnFalls.jpg");
+    cred = loadImage ("nubes.jpg");
+    //FUENTES
     fuente1 = createFont( "iomanoid.ttf", 65 );
     fuente2 = createFont( "pixel.TTF", 20 );
     //COLORES
@@ -91,42 +94,28 @@ class Juego {
 
     if ( estado.equals( "inicio" ) ) {
       dibujarInicio();
-      
-      mybeat2.rewind();
-      mybeat2.play();
-      
+      mybeat2.loop();
+      ganaste.loop();
+      perdiste.loop();
     } else if ( estado.equals( "instrucciones" ) ) {
       dibujarInstrucciones();
-      
-      mybeat2.play();
-      
+      perdiste.mute();
+      ganaste.mute();
     } else if ( estado.equals( "jugando")  ) {
       dibujarJugando();
-      
-      mybeat2.rewind();
-      mybeat2.play();
-      
     } else if ( estado.equals( "ganaste" ) ) {
       dibujarGanaste();
-      
-      mybeat2.pause();
-      ganaste.rewind();
-      ganaste.play();
-      
+      mybeat2.mute();
+      ganaste.unmute();
     } else if ( estado.equals( "perdiste" ) ) {
       dibujarPerdiste();
-      
-      mybeat2.pause();
-      perdiste.rewind();
-      perdiste.play();
-      
+      mybeat2.mute();
+      perdiste.unmute();
     } else if ( estado.equals("creditos") ) {
       dibujarCreditos();
-      
-      perdiste.pause();
-      ganaste.pause();
-      mybeat2.rewind();
-      mybeat2.play();
+      mybeat2.unmute();
+      perdiste.mute();
+      ganaste.mute();
     }
   }
 
@@ -137,7 +126,6 @@ class Juego {
     if ( estado.equals( "instrucciones" ) && dist( mouseX, mouseY, width/2, height/2+200 ) <= 50) {
       estado = "jugando";
     } 
-
     if ( estado.equals( "perdiste" ) ) { //video, se suman las derrotas cuando hacemos click en el estado de "perdiste"
       estado = "creditos";
       derrotas++;
@@ -158,17 +146,18 @@ class Juego {
     }
   }
 
+
   //INICIO--------------------------------------------------------
 
-  void dibujarInicio() {
 
-    //mybeat2.rewind();
-    //mybeat2.play();
-    pushStyle();
+
+  void dibujarInicio() {
     background(violeta);
+    pushStyle();
     tint(255, 255, 255, 100);
     image( iniciar, width/2, height/2-100, 600, 1000);
     popStyle();
+
     for ( int i = 0; i < 10; i ++ ) { 
       float tam =  random ( 20, 40 );
       noStroke();
@@ -192,12 +181,10 @@ class Juego {
     //video, boton de comenzar, cambia de color si esta dentro o fuera de los limites
     //video, si hacemos click dentro de los limites pasamos al estado de instrucciones
     if ( mouseX > width/2-100 && mouseX < width/2+70 && mouseY > height-120 && mouseY < height-50 ) {
-      fill( amarillo );
-      rect( width/2-100, height-120, 200, 70 );
+      BotonCua (width/2-100, height-120, 200, 70, 15, 15, 15, 15, color (amarillo));
       MiTexto( "COMENZAR", 20, width/2, height-75, color ( 255, 8, 74 ) );
     } else {
-      fill( 255, 8, 74 );
-      rect( width/2-100, height-120, 200, 70 );
+      BotonCua (width/2-100, height-120, 200, 70, 15, 15, 15, 15, color (255, 8, 74));
       MiTexto( "COMENZAR", 20, width/2, height-75, amarillo );
     }
   }
@@ -206,32 +193,32 @@ class Juego {
 
   void dibujarInstrucciones() {
 
-    //mybeat2.rewind();
-    //mybeat2.play();
     background(violeta);
     pushStyle();
     tint(255, 255, 255, 100);
     image( instruc, width/2, height/2, 600, 800);
     popStyle();
+
+
     for ( int i = 0; i < 10; i ++ ) { 
       float tam =  random ( 20, 40 );
       noStroke();
       fill(255, random( 0, 180 ), random( 50, 100 ), 70);
       rect ( random(width), random( height ), tam, tam);
     }
-    fill( bordo );
+    fill( bordo, 90 );
     rect( 50, 100, 500, 600 );
     image( instruccion, width/2, 100, 150, 150);
     textFont( fuente2 );
     MiTexto( "INSTRUCCIONES", 40, width/2, height/2-200, color(amarillo) );
     MiTexto( "MUEVE EL MOUSE \nPARA GOLPEAR LA\nPELOTA", 20, width/2, random( height/2-113, height/2-110 ), color (amarillo) );
     if ( dist( mouseX, mouseY, width/2, height/2+200) <= 50 ) {
-      fill( amarillo );
-      circle( width/2, height/2+200, 100 );
+
+      BotonCir (width/2, height/2+200, 100, color (amarillo));
       MiTexto( "start", 20, width/2, height/2+206, color (  255, 8, 74 ) );
     } else {
-      fill( 255, 8, 74 );
-      circle( width/2, height/2+200, 100 );
+
+      BotonCir (width/2, height/2+200, 100, color (255, 8, 74));
       MiTexto( "start", 20, width/2, height/2+206, color (amarillo) );
     }
 
@@ -241,8 +228,6 @@ class Juego {
   //JUGANDO------------------------------------------------------------
 
   void dibujarJugando() {
-    //mybeat2.rewind();
-    //mybeat2.play();
     pushStyle();
     background(10);
     stroke(199, 0, 57);
@@ -284,14 +269,18 @@ class Juego {
   //GANASTE--------------------------------------------------------------
 
   void dibujarGanaste() {
-    //mybeat2.pause();
-    //ganaste.rewind();
-    //ganaste.play();
+
     background( naranja );
+
+    pushStyle();
+    tint(255, 255, 255, 90);
+    image( gane, width/2, height/2, 600, 800);
+    popStyle();
+
     for ( int i = 0; i < 2; i ++ ) { //video, fondo de pantalla de inicio e instrucciones
       float tam =  random ( 20, 40 );
       noStroke();
-      fill(255, random( 0, 180 ), random( 50, 100 ), 70);
+      fill(255, random( 100, 255 ), random( 100, 255 ), 90);
       rect ( random(width), random( height ), tam, tam);
     }
     textFont( fuente2 );
@@ -302,11 +291,14 @@ class Juego {
 
   //PERDISTE---------------------------------------------------------
 
-  void dibujarPerdiste() {  
-    //mybeat2.pause();
-    //perdiste.rewind();
-    //perdiste.play();
+  void dibujarPerdiste() { 
+
     background( 0, 89, 129 );
+
+    pushStyle();
+    tint(255, 255, 255, 100);
+    image( perdi, width/2, height/2, 600, 800);
+    popStyle();
 
     for ( int i = 0; i < 100; i ++ ) { 
       float tam =  random ( 5, 50 );
@@ -318,16 +310,19 @@ class Juego {
     textFont( fuente2 );
     MiTexto( "Perdiste!", 80, width/2, 200, color ( 54, 191, 252 ) );
     MiTexto( "HAGA CLICK PARA VER LOS\nCREDITOS", 25, width/2, random ( height/2+260, height/2+263 ), color ( 54, 191, 252 ) );
-    image( tiste, width/2, height/2, 300, 300);
+    image( tiste, width/2, height/2+50, 300, 300);
   }
 
   //CREDITOS-------------------------------------------------------------
 
   void dibujarCreditos() {
 
-    //mybeat2.rewind();
-    //mybeat2.play();
     background(violeta);
+
+    pushStyle();
+    tint(255, 255, 255, 100);
+    image( cred, width/2, height/2, 600, 800);
+    popStyle();
 
     textFont(fuente2);
     MiTexto("GRACIAS POR ELEGIRNOS COMO\nTU FORMA DE ENTRETENIMIENTO", 20, width/2, 55, color (255, 8, 74));
@@ -345,8 +340,8 @@ class Juego {
     MiTexto("RIGLOS LLANO MICAELA Y\nSEGOVIA BRIZUELA DIANA", 17, width/2, 360, color (naranja));
     MiTexto("TECNO MULTIMEDIA 1, 2022", 20, width/2, 420, color (255, 8, 74));
     MiTexto("PROFESOR, FUENTE DE CONOCIMIENTO Y RECURSOS:", 13, width/2, 450, color (rojo));
-    MiTexto("MATIAS JAUREGUI LORDA", 17, width/2, 470, color (naranja));
-    MiTexto("TOBIAS ALBIROSA", 17, width/2, 490, color (naranja));
+    MiTexto("MATIAS JAUREGUI LORDA", 17, width/2, 480, color (naranja));
+    MiTexto("TOBIAS ALBIROSA", 17, width/2, 500, color (naranja));
     MiTexto("BASADO EN EL JUEGO", 13, width/2, 530, color (rojo));
     MiTexto("''ARKANOID BREAK BREAKER''", 17, width/2, 550, color (naranja));
     MiTexto("IMAGENES OBTENIDAS DE:", 13, width/2, 590, color (rojo));
@@ -357,6 +352,7 @@ class Juego {
   }
 
   //REINICIO-------------------------------------------------------
+
 
   void reiniciar() {
     estado = "inicio";
@@ -395,6 +391,8 @@ class Juego {
     bloques [23] = new Bloque (480, 350, 4);
   }
 
+  //DISEÑO---------------------------------------------------------
+
   void MiTexto ( String texto, float tam, float x, float y, int MiColor ) {
 
     pushStyle();
@@ -403,5 +401,17 @@ class Juego {
     fill ( MiColor );
     text( texto, x, y );
     popStyle();
+  }
+
+  void BotonCua (float x, float y, float tamX, float tamY, float r1, float r2, float r3, float r4, color relleno) {
+
+    fill(relleno);
+    rect(x, y, tamX, tamY, r1, r2, r3, r4);
+  }
+
+  void BotonCir (float x, float y, float tamX, color relleno) {
+
+    fill(relleno);
+    circle(x, y, tamX);
   }
 }
