@@ -86,23 +86,34 @@ class Juego {
     paleta = new Paleta(height-100, 120, 20);
     puntaje = new Puntaje();
     victorias = derrotas = 0;
+    mybeat2.play();
+    mybeat2.loop();
+    ganaste.play();
+    ganaste.loop();
+    perdiste.play();
+    perdiste.loop();
   }
 
   //METODOS---------------------------------------------------------------
 
   void dibujar() {
-
+    
     if ( estado.equals( "inicio" ) ) {
-      dibujarInicio();
-      mybeat2.loop();
-      ganaste.loop();
-      perdiste.loop();
+      dibujarInicio(); 
+      mybeat2.unmute();
+      perdiste.mute();
+      ganaste.mute();
+      
     } else if ( estado.equals( "instrucciones" ) ) {
       dibujarInstrucciones();
       perdiste.mute();
       ganaste.mute();
+      
     } else if ( estado.equals( "jugando")  ) {
       dibujarJugando();
+      perdiste.mute();
+      ganaste.mute();
+      
     } else if ( estado.equals( "ganaste" ) ) {
       dibujarGanaste();
       mybeat2.mute();
