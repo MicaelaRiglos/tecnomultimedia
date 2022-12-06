@@ -53,11 +53,11 @@ class Pelota {
 
   void reiniciar() {
     if (keyPressed && key == ' ') {
-      vel = 0.1;
-      velX = 0.1;
-      velY = 0.1;
+      vel = 2;
+      velX = 2;
+      velY = 2;
       x = random (10, 590);
-      y = 450;
+      y = height/2;
     }
   }    
 
