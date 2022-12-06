@@ -53,9 +53,9 @@ class Pelota {
 
   void reiniciar() {
     if (keyPressed && key == ' ') {
-      vel = 2;
-      velX = 2;
-      velY = 2;
+      vel = 7;
+      velX = 7;
+      velY = 7;
       x = random (10, 590);
       y = height/2;
     }

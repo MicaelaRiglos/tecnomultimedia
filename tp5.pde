@@ -1,18 +1,23 @@
+
+
 //Riglos Llano Micaela (91342/2) y Segovia Brizuela Diana Aidee (91381/9)
 //https://youtu.be/jKrwWIfKPoM
 
 import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
 
 Minim minim;
 
-//Juego juego;
-Pantalla pantalla;
+Juego arkanoid;
 
   void setup() {
 
   minim = new Minim(this);
-  //juego = new Juego();
-  pantalla = new Pantalla();
+  arkanoid = new Juego();
 
 
   size( 600, 800 );
@@ -21,13 +26,13 @@ Pantalla pantalla;
 }
 
 void draw() {
-  pantalla.dibujar();
+  arkanoid.dibujar();
 }
 
 void keyPressed() {
-  pantalla.keyPressed();
+  arkanoid.keyPressed();
 }
 
 void mouseClicked() {
-  pantalla.mouseClicked();
+  arkanoid.mouseClicked();
 }
